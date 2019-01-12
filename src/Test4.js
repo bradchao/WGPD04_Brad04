@@ -16,9 +16,17 @@ var Test4Layer = cc.Layer.extend({
         fort.attr({x:cc.winSize.width/2, y:32});
         this.addChild(fort);
 
+        var labelTTF = new cc.LabelTTF("射鳥遊戲", "", 40, cc.size(200,50));
+        labelTTF.setPosition(cc.p(cc.winSize.width/2, cc.winSize.height-50));
+        this.addChild(labelTTF);
+
+        var score = new cc.LabelAtlas("14774", res.Number_png, 22,24, "0");
+        score.setPosition(cc.p(100, cc.winSize.height-50));
+        this.addChild(score);
 
 
         this.schedule(this.myTask, 3, cc.RepeatForever, 1, 1);
+        this.schedule(this.detectShot,0.1, cc.RepeatForever, 0, 1);
 
         this.myListener();
 
@@ -29,6 +37,28 @@ var Test4Layer = cc.Layer.extend({
         this.newBird();
     },
 
+
+    detectShot: function(){
+        if (this.bird == null) return;
+
+        var birdRect = new cc.Rect(
+            this.bird.x - this.bird.width/2,
+            this.bird.y - this.bird.height/2,
+            this.bird.width,
+            this.bird.height
+        );
+
+        var bulletPoint = new cc.Point(
+            this.bullet.x, this.bullet.y
+        );
+
+        if (cc.rectContainsPoint(birdRect, bulletPoint)){
+            this.removeChild(this.bird);
+        }else if (this.bird.x-this.bird.width/2 >= cc.winSize.width){
+            this.removeChild(this.bird);
+        }
+
+    },
 
     myListener: function(){
         if ('mouse' in cc.sys.capabilities){

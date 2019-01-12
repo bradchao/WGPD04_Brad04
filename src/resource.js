@@ -31,6 +31,7 @@ var res = {
     Bird_png : "res/bird.png",
     Fort_png : "res/fort.png",
     Bullet_png : "res/bullet.png",
+    Number_png : "res/number.png",
 };
 
 var g_resources = [];
